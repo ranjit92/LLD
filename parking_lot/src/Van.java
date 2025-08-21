@@ -1,6 +1,5 @@
 public class Van extends Vehicle{
-    @Override
-    public void assignTicket(ParkingTicket ticket) {
-
+    public Van(String licenseNo) {
+        super(licenseNo);
     }
 }

@@ -1,6 +1,7 @@
 public class MotorCycle extends Vehicle{
-    @Override
-    public void assignTicket(ParkingTicket ticket) {
 
+    public MotorCycle(String licenseNo) {
+        super(licenseNo);
     }
+
 }

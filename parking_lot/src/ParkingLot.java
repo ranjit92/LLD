@@ -1,51 +1,74 @@
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ParkingLot {
     private int id;
     private String name;
     private Address address;
-    private ParkingRate parkingRate;
+    public ParkingRate parkingRate = new ParkingRate();
 
-    private Map<String, Entrance> entrances;
-    private Map<String, Exit> exits;
-    private Map<String, ParkingSpot> spots;
-    private Map<String, ParkingTicket> tickets;
-    private List<DisplayBoard> boards;
+    private Map<Integer, ParkingSpot> spots = new HashMap<>();
+    private Map<Integer, ParkingTicket> tickets = new HashMap<>();
+    private List<DisplayBoard> boards = new ArrayList<>();
 
     //Singleton implementation
     private static ParkingLot parkingLot = null;
-    private ParkingLot(){
+
+    private ParkingLot() {
 
     }
-    public static ParkingLot getParkingLot(){
-        if(parkingLot == null){
+
+    public static ParkingLot getInstance() {
+        if (parkingLot == null) {
             parkingLot = new ParkingLot();
         }
         return parkingLot;
     }
 
-    public boolean addEntrance(Entrance entrance){
-        return false;
+    public void addParkingSpot(ParkingSpot spot) {
+        spots.put(spot.getId(), spot);
     }
 
-    public boolean addExit(Exit exit){
-        return false;
+    public ParkingSpot getParkingSpot(int id) {
+        return spots.get(id);
     }
 
-    public boolean addParkingSpot(ParkingSpot spot){
-        return false;
+    public void addDisplay(DisplayBoard board) {
+        boards.add(board);
     }
 
-    public boolean addDisplay(DisplayBoard board){
-        return false;
+    public void freeSlot(int id) {
+        ParkingSpot spot = spots.get(id);
+        if (spot != null) {
+            spot.removeVehicle();
+        }
     }
 
-    public ParkingTicket getParkingTicket(Vehicle vehicle){
+    public Collection<ParkingSpot> getAllSports() {
+        return spots.values();
+    }
+
+    public ParkingTicket getParkingTicket(Vehicle vehicle) {
+        for (ParkingSpot s : spots.values()) {
+            if (s.isFree && canfit(vehicle, s)) {
+                s.assignVehicle(vehicle);
+                ParkingTicket ticket = new ParkingTicket(s.getId(), vehicle);
+                tickets.put(ticket.getTicketNo(), ticket);
+                return ticket;
+            }
+        }
         return null;
     }
 
-    public boolean isFull(ParkingSpot spotType){
+    private boolean canfit(Vehicle vehicle, ParkingSpot s) {
+        if ((vehicle instanceof MotorCycle && s instanceof MotorCycleSpot)){
+            return true;
+        }
+        if ((vehicle instanceof Van || vehicle instanceof Truck) && s instanceof Large) {
+            return true;
+        }
+        if (vehicle instanceof Car && (s instanceof Compact || s instanceof Handicapped)) {
+            return true;
+        }
         return false;
     }
 }
