@@ -6,7 +6,7 @@ public class Large extends ParkingSpot{
     @Override
     public boolean assignVehicle(Vehicle vehicle) {
         if(isFree){
-            System.out.println("Allocated large cycle slot " + id + "to "+ vehicle.getLicenseNo());
+            System.out.println("Allocated large slot " + id + "to "+ vehicle.getLicenseNo());
             this.vehicle = vehicle;
             isFree = false;
             return true;

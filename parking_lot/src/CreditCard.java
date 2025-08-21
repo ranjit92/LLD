@@ -6,7 +6,7 @@ public class CreditCard extends Payment {
     @Override
     public boolean initiateTransaction() {
         status = PaymentStatus.COMPLETED;
-        System.out.println("Credit card payment of Rs. " + amount + "completed.");
+        System.out.println("Credit card payment of Rs." + amount + " completed.");
         return true;
     }
 }

@@ -4,10 +4,11 @@ public class Driver {
         System.out.println("=============Parking lot system demo===============");
 
         ParkingLot parkingLot = ParkingLot.getInstance();
-        parkingLot.addParkingSpot(new Handicapped(1));
+
         parkingLot.addParkingSpot(new Large(2));
         parkingLot.addParkingSpot(new Compact(3));
         parkingLot.addParkingSpot(new MotorCycleSpot(4));
+        parkingLot.addParkingSpot(new Handicapped(1));
 
         Entrance entrance = new Entrance(1);
         Exit exit = new Exit(1);
@@ -37,5 +38,32 @@ public class Driver {
         board.update(parkingLot.getAllSports());
         board.showFreeSlot();
 
+        //filling parking lot and new vehicle get rejected
+        System.out.println("Multiple customer attempt to enter and lot become full and rejecting new vehicle");
+
+        Vehicle vehicle1 = new Van("KA01-3554-4567");
+        ParkingTicket ticket1 = entrance.getTicket(vehicle1);
+
+        Vehicle vehicle2 = new Car("KA01-3554-4568");
+        ParkingTicket ticket2 = entrance.getTicket(vehicle2);
+
+        Vehicle vehicle3 = new MotorCycle("KA01-3554-4569");
+        ParkingTicket ticket3 = entrance.getTicket(vehicle3);
+
+        Vehicle vehicle4 = new Car("KA01-3554-4510");
+        ParkingTicket ticket4 = entrance.getTicket(vehicle4);
+
+        System.out.println("Updating the display board after parking");
+        board.update(parkingLot.getAllSports());
+        board.showFreeSlot();
+
+        //Trying to enter new one after full
+
+        Vehicle vehicle5 = new Car("KA01-3554-4511");
+        ParkingTicket ticket5 = entrance.getTicket(vehicle5);
+        System.out.println("Unable to park the vehicle, ticket created: " + ticket5);
+
+        board.update(parkingLot.getAllSports());
+        board.showFreeSlot();
     }
 }

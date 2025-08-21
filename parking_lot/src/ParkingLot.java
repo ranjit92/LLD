@@ -6,7 +6,7 @@ public class ParkingLot {
     private Address address;
     public ParkingRate parkingRate = new ParkingRate();
 
-    private Map<Integer, ParkingSpot> spots = new HashMap<>();
+    private Map<Integer, ParkingSpot> spots = new LinkedHashMap<>();
     private Map<Integer, ParkingTicket> tickets = new HashMap<>();
     private List<DisplayBoard> boards = new ArrayList<>();
 
@@ -60,13 +60,13 @@ public class ParkingLot {
     }
 
     private boolean canfit(Vehicle vehicle, ParkingSpot s) {
-        if ((vehicle instanceof MotorCycle && s instanceof MotorCycleSpot)){
+        if ((vehicle instanceof MotorCycle && s instanceof MotorCycleSpot)) {
             return true;
-        }
-        if ((vehicle instanceof Van || vehicle instanceof Truck) && s instanceof Large) {
+        } else if ((vehicle instanceof Van || vehicle instanceof Truck) && s instanceof Large) {
             return true;
-        }
-        if (vehicle instanceof Car && (s instanceof Compact || s instanceof Handicapped)) {
+        } else if (vehicle instanceof Car && s instanceof Handicapped) {
+            return true;
+        } else if (vehicle instanceof Car && s instanceof Compact) {
             return true;
         }
         return false;
